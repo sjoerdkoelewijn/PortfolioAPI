@@ -296,3 +296,14 @@ function custom_taxonomy_services() {
 add_action( 'init', 'custom_taxonomy_services', 0 );
 
 
+/*************************** Add admin option page **********************************/
+
+add_action( 'admin_menu', 'sk_add_admin_menu' );
+add_action( 'admin_init', 'sk_settings_init' );
+
+
+function sk_add_admin_menu(  ) { 
+
+	add_options_page( 'settings', 'settings', 'manage_options', 'settings', 'sk_options_page' );
+
+}
