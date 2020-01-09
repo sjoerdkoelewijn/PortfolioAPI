@@ -1,0 +1,39 @@
+
+
+body{
+  margin:0;
+}
+
+.section {
+  background:#FFDB59;
+  width:100vw;
+  height:100vh;
+
+  display:flex;
+  align-items: center;
+  
+  padding:30px;
+  box-sizing: content-box; 
+}
+
+.intro_text {
+  font-family:'heebo';
+  font-weight:400;
+  color:#333;
+  font-size:3vw;
+  width:80%;
+  margin:auto;
+    
+}
+
+li {
+    list-style-type:none;
+}
+
+  a {
+    color:#333;
+  }
+
+  a:visited {
+    color:#000;
+  }
