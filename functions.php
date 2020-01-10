@@ -305,7 +305,14 @@ function microcopy_settings_page() {
 }
 
 function sk_api_settings_init(  ) {
-    register_setting( 'stpPlugin', 'sk_api_settings' );
+	$args = array(
+		'type' => 'string',
+		'sanitize_callback' => 'sanitize_text_field',
+		'default' => NULL,
+		'show_in_graphql' => true,
+		);
+    register_setting( 'stpPlugin', 'sk_api_settings', $args );
+	
     add_settings_section(
         'sk_api_stpPlugin_section',
         __( 'Index Microcopy', 'wordpress' ),
