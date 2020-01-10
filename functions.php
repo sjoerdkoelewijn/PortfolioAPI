@@ -296,12 +296,71 @@ add_action( 'init', 'custom_taxonomy_services', 0 );
 
 /*************************** Add admin option page **********************************/
 
-add_action( 'admin_menu', 'sk_add_admin_menu' );
-add_action( 'admin_init', 'sk_settings_init' );
 
+add_action( 'admin_menu', 'microcopy_settings_page' );
+add_action( 'admin_init', 'sk_api_settings_init' );
 
-function sk_add_admin_menu(  ) { 
-
-	add_options_page( 'MicroCopy', 'MicroCopy', 'manage_options', 'MicroCopy', 'sk_options_page' );
-
+function microcopy_settings_page() {
+    add_menu_page( 'Microcopy', 'Microcopy', 'manage_options', 'microcopy-page', 'microcopy_api_page', 'dashicons-edit', 3  );
 }
+
+function sk_api_settings_init(  ) {
+    register_setting( 'stpPlugin', 'sk_api_settings' );
+    add_settings_section(
+        'sk_api_stpPlugin_section',
+        __( 'Index Microcopy', 'wordpress' ),
+        'sk_api_settings_section_callback',
+        'stpPlugin'
+    );
+
+    add_settings_field(
+        'sk_api_text_field_0',
+        __( 'Hero Text', 'wordpress' ),
+        'sk_api_text_field_0_render',
+        'stpPlugin',
+        'sk_api_stpPlugin_section'
+    );
+
+    add_settings_field(
+        'sk_api_select_field_1',
+        __( 'Work Title', 'wordpress' ),
+        'sk_api_select_field_1_render',
+        'stpPlugin',
+        'sk_api_stpPlugin_section'
+    );
+}
+
+function sk_api_text_field_0_render(  ) {
+    $options = get_option( 'sk_api_settings' );
+    ?>
+    <textarea name='sk_api_settings[sk_api_text_field_0]'><?php echo $options['sk_api_text_field_0']; ?></textarea>
+    <?php
+}
+
+function sk_api_select_field_1_render(  ) {
+    $options = get_option( 'sk_api_settings' );
+    ?>
+    <input type='text' name='sk_api_settings[sk_api_text_field_1]' value='<?php echo $options['sk_api_text_field_1']; ?>'>
+<?php
+}
+
+function sk_api_settings_section_callback(  ) {
+    echo __( 'All the microcopy on the index page ', 'wordpress' );
+}
+
+function microcopy_api_page(  ) {
+    ?>
+    <form action='options.php' method='post'>
+
+        <h1>Microcopy Overview</h1>
+
+        <?php
+        settings_fields( 'stpPlugin' );
+        do_settings_sections( 'stpPlugin' );
+        submit_button();
+        ?>
+
+    </form>
+    <?php
+}
+
