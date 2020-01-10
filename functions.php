@@ -305,11 +305,10 @@ function microcopy_settings_page() {
 }
 
 function sk_api_settings_init(  ) {
-	$args = array(
-		'type' => 'string',
-		'sanitize_callback' => 'sanitize_text_field',
-		'default' => NULL,
-		'show_in_graphql' => true,
+		$args = array(
+			'type' => 'string',
+			'default' => NULL,
+			'show_in_graphql' => true,
 		);
     register_setting( 'stpPlugin', 'sk_api_settings', $args );
 	
