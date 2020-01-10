@@ -296,13 +296,12 @@ add_action( 'init', 'custom_taxonomy_services', 0 );
 
 /*************************** Add admin option page **********************************/
 
-function display_cover_page()
+function display_micro_copy_headertext()
 {
-	wp_dropdown_pages(array(
-        'selected'              => get_option('cover_page'),
-        'name'                  => 'cover_page',
-        'id'                    => 'cover_page',
-    ));
+	$options = get_option( 'micro_copy' );
+    ?>
+    <textarea style="width:30vw;height:250px;" name='micro_copy[micro_copy_headertext]'><?php echo $options['micro_copy_headertext']; ?></textarea>
+    <?php
 }
 
 
@@ -317,13 +316,18 @@ function register_settings() {
         'show_in_graphql' => true,
     );
 
-    register_setting("pages", "cover_page", $args);
+    register_setting("microcopy", "micro_copy", $args);
 
 }
 
 function register_settings_groups() {
 
-    add_settings_section("pages", "Páginas", null, "project-backend");
+    add_settings_section(
+		"index_microcopy_section", 
+		"Index Microcopy", 
+		null, 
+		"microcopy"
+	);
 
     $args = array(
         'type' => 'string',
@@ -331,7 +335,13 @@ function register_settings_groups() {
     );
 
 
-    add_settings_field("cover_page", "Página de Portada", "display_cover_page", "project-backend", "pages");
+    add_settings_field(
+		"micro_copy_headertext", 
+		"Index Hero Text", 
+		"display_micro_copy_headertext", 
+		"microcopy",
+		"index_microcopy_section"
+	);
 
     $args = array(
         'type' => 'string',
@@ -347,18 +357,18 @@ function register_settings_groups() {
 
 
 
-function theme_settings_page()
+function microcopy_api_page()
 {
     ?>
 	    <div class="wrap">
 	    
-        <h1>Settings</h1>
+        <h1>Microcopy Overview</h1>
 
 	    <form method="post" action="options.php">
 	        
             <?php
-	            settings_fields("pages");
-	            do_settings_sections("project-backend");      
+	            settings_fields("microcopy");
+	            do_settings_sections("microcopy");      
 	            submit_button(); 
 	        ?>          
 	    </form>
@@ -369,7 +379,7 @@ function theme_settings_page()
 
 function add_theme_menu_item()
 {
-    add_menu_page("project", "project", "manage_options", "theme-panel", "theme_settings_page", null, 99);
+    add_menu_page("Microcopy", "Microcopy", "manage_options", "microcopy-page", "microcopy_api_page", "dashicons-edit", 3);
 }
 
 add_action("admin_menu", "add_theme_menu_item");
