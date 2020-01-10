@@ -296,78 +296,83 @@ add_action( 'init', 'custom_taxonomy_services', 0 );
 
 /*************************** Add admin option page **********************************/
 
+class Settings {
+    /**
+     * The theme name
+     */
+    protected $theme_name;
 
-add_action( 'admin_menu', 'microcopy_settings_page' );
-add_action( 'admin_init', 'sk_api_settings_init' );
-add_action( 'rest_api_init', 'sk_api_settings_init' );
+    /**
+     * The theme version
+     */
+    protected $theme_version;
 
-function microcopy_settings_page() {
-    add_menu_page( 'Microcopy', 'Microcopy', 'manage_options', 'microcopy-page', 'microcopy_api_page', 'dashicons-edit', 3  );
+    /**
+     * The constructor
+     */
+    public function __construct( $theme_name, $theme_version ) {
+        $this->theme_name    = $theme_name;
+        $this->theme_version = $theme_version;
+    }
 }
 
-function sk_api_settings_init(  ) {
-		$args = array(
-			'type' => 'string',
-			'default' => NULL,
-			'show_in_graphql' => true,
-		);
-    register_setting( 'stpPlugin', 'sk_api_settings', $args );
-	
+public function settings_api_init() {
     add_settings_section(
-        'sk_api_stpPlugin_section',
-        __( 'Index Microcopy', 'wordpress' ),
-        'sk_api_settings_section_callback',
-        'stpPlugin'
+        'socials',
+        'Socials',
+        // In class context pass an array with $this and the method name
+        // to retrieve callback function.
+        array( $this, 'socials_callback_function' ),
+        // Our Socials setting will be set under the General tab.
+        'general'
     );
 
     add_settings_field(
-        'sk_api_text_field_0',
-        __( 'Hero Text', 'wordpress' ),
-        'sk_api_text_field_0_render',
-        'stpPlugin',
-        'sk_api_stpPlugin_section'
+        'microcopy',
+        'Microcopy',
+        array( $this, 'setting_callback_function' ),
+        'general',
+        // Display this setting under our newly declared section right
+        // above.
+        'socials',
+        // Extra arguments used in callback function.
+        array(
+            'name'  => 'microcopy',
+            'label' => 'Microcopy',
+        )
     );
-
-    add_settings_field(
-        'sk_api_select_field_1',
-        __( 'Work Title', 'wordpress' ),
-        'sk_api_select_field_1_render',
-        'stpPlugin',
-        'sk_api_stpPlugin_section'
-    );
 }
 
-function sk_api_text_field_0_render(  ) {
-    $options = get_option( 'sk_api_settings' );
-    ?>
-    <textarea style="width:30vw;height:250px;" name='sk_api_settings[sk_api_text_field_0]'><?php echo $options['sk_api_text_field_0']; ?></textarea>
-    <?php
+public function socials_callback_function() {
+    echo '<h1>Microcopy Overview</h1>';
 }
 
-function sk_api_select_field_1_render(  ) {
-    $options = get_option( 'sk_api_settings' );
-    ?>
-    <input style="width:30vw;" type='text' name='sk_api_settings[sk_api_text_field_1]' value='<?php echo $options['sk_api_text_field_1']; ?>'>
-<?php
+public function setting_callback_function( $args ) {
+    // Ugly, I know 😔.
+    echo '<input style="width:30vw;" name="' . esc_attr( $args['name'] ) . '" type="text" value="' . esc_attr( get_option( $args['name'] ) ) . '" class="regular-text code" placeholder="' . esc_attr( $args['label'] ) . ' URL" />'; 
+    echo ' ' . esc_attr( $args['label'] ) . ' URL';
 }
 
-function sk_api_settings_section_callback(  ) {
-    echo __( 'All the microcopy on the index page ', 'wordpress' );
+public function register_settings() {
+    $args = array(
+        'type'              => 'string',
+        'sanitize_callback' => 'sanitize_text_field',
+        'default'           => null,
+        // Extra argument for WPGraphQL.
+        'show_in_graphql'   => true,
+        'show_in_rest'      => true,
+     );
+
+     register_setting( 'general', 'microcopy', $args );
 }
 
-function microcopy_api_page(  ) {
-    ?>
-    <form action='options.php' method='post'>
 
-        <h1>Microcopy Overview</h1>
+public function __construct( $theme_name, $theme_version ) {
+    $this->theme_name    = $theme_name;
+    $this->theme_version = $theme_version;
 
-        <?php
-        settings_fields( 'stpPlugin' );
-        do_settings_sections( 'stpPlugin' );
-        submit_button();
-        ?>
-
-    </form>
-    <?php
+    add_action( 'admin_init', array( $this, 'settings_api_init' ) );
+    // We hook into init and not admin_init to make front aware of this
+    // settings.
+    add_action( 'init', array( $this, 'register_settings' ) );
 }
-
