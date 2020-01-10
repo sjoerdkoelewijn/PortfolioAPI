@@ -296,79 +296,82 @@ add_action( 'init', 'custom_taxonomy_services', 0 );
 
 /*************************** Add admin option page **********************************/
 
-add_action( 'admin_menu', 'microcopy_settings_page' );
-add_action( 'init', 'register_settings' );
-add_action("admin_init", "register_settings_groups");
-
-function microcopy_settings_page() {
-    add_menu_page( 'Microcopy', 'Microcopy', 'manage_options', 'microcopy-page', 'microcopy_api_page', 'dashicons-edit', 3  );
+function display_cover_page()
+{
+	wp_dropdown_pages(array(
+        'selected'              => get_option('cover_page'),
+        'name'                  => 'cover_page',
+        'id'                    => 'cover_page',
+    ));
 }
 
-function register_settings() {
-		
-		$args = array(
-			'type' => 'string',
-			'sanitize_callback' => NULL,
-			// 'sanitize_callback' => 'sanitize_text_field',
-			'default' => NULL,
-			'show_in_graphql' => true,
-		);
 
-    register_setting( 'stpPlugin', 'sk_api_settings', $args );
+function register_settings() {
+
+
+    $args = array(
+        'type' => 'string',
+        'sanitize_callback' => NULL,
+        // 'sanitize_callback' => 'sanitize_text_field',
+        'default' => NULL,
+        'show_in_graphql' => true,
+    );
+
+    register_setting("pages", "cover_page", $args);
+
 }
 
 function register_settings_groups() {
-	add_settings_section(
-        'sk_api_stpPlugin_section',
-        __( 'Index Microcopy', 'wordpress' ),
-        'sk_api_settings_section_callback',
-        'stpPlugin'
+
+    add_settings_section("pages", "Páginas", null, "project-backend");
+
+    $args = array(
+        'type' => 'string',
+        'show_in_graphql' => true,
     );
-    add_settings_field(
-        'sk_api_text_field_0',
-        __( 'Hero Text', 'wordpress' ),
-        'sk_api_text_field_0_render',
-        'stpPlugin',
-        'sk_api_stpPlugin_section'
+
+
+    add_settings_field("cover_page", "Página de Portada", "display_cover_page", "project-backend", "pages");
+
+    $args = array(
+        'type' => 'string',
+        'sanitize_callback' => NULL,
+        // 'sanitize_callback' => 'sanitize_text_field',
+        'default' => NULL,
+        'show_in_graphql' => true,
     );
-    add_settings_field(
-        'sk_api_select_field_1',
-        __( 'Work Title', 'wordpress' ),
-        'sk_api_select_field_1_render',
-        'stpPlugin',
-        'sk_api_stpPlugin_section'
-    );
-}
-	
-    
 
-function sk_api_text_field_0_render(  ) {
-    $options = get_option( 'sk_api_settings' );
+
+
+}
+
+
+
+function theme_settings_page()
+{
     ?>
-    <textarea style="width:30vw;height:250px;" name='sk_api_settings[sk_api_text_field_0]'><?php echo $options['sk_api_text_field_0']; ?></textarea>
-    <?php
-}
-function sk_api_select_field_1_render(  ) {
-    $options = get_option( 'sk_api_settings' );
-    ?>
-    <input style="width:30vw;" type='text' name='sk_api_settings[sk_api_text_field_1]' value='<?php echo $options['sk_api_text_field_1']; ?>'>
-<?php
-}
-function sk_api_settings_section_callback(  ) {
-    echo __( 'All the microcopy on the index page ', 'wordpress' );
-}
-function microcopy_api_page(  ) {
-    ?>
-    <form action='options.php' method='post'>
+	    <div class="wrap">
+	    
+        <h1>Settings</h1>
 
-        <h1>Microcopy Overview</h1>
-
-        <?php
-        settings_fields( 'stpPlugin' );
-        do_settings_sections( 'stpPlugin' );
-        submit_button();
-        ?>
-
-    </form>
-    <?php
+	    <form method="post" action="options.php">
+	        
+            <?php
+	            settings_fields("pages");
+	            do_settings_sections("project-backend");      
+	            submit_button(); 
+	        ?>          
+	    </form>
+		</div>
+	<?php
 }
+
+
+function add_theme_menu_item()
+{
+    add_menu_page("project", "project", "manage_options", "theme-panel", "theme_settings_page", null, 99);
+}
+
+add_action("admin_menu", "add_theme_menu_item");
+add_action("init", "register_settings");
+add_action("admin_init", "register_settings_groups");
