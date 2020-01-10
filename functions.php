@@ -299,6 +299,7 @@ add_action( 'init', 'custom_taxonomy_services', 0 );
 
 add_action( 'admin_menu', 'microcopy_settings_page' );
 add_action( 'admin_init', 'sk_api_settings_init' );
+add_action( 'rest_api_init', 'sk_api_settings_init' );
 
 function microcopy_settings_page() {
     add_menu_page( 'Microcopy', 'Microcopy', 'manage_options', 'microcopy-page', 'microcopy_api_page', 'dashicons-edit', 3  );
@@ -339,14 +340,14 @@ function sk_api_settings_init(  ) {
 function sk_api_text_field_0_render(  ) {
     $options = get_option( 'sk_api_settings' );
     ?>
-    <textarea name='sk_api_settings[sk_api_text_field_0]'><?php echo $options['sk_api_text_field_0']; ?></textarea>
+    <textarea style="width:30vw;height:250px;" name='sk_api_settings[sk_api_text_field_0]'><?php echo $options['sk_api_text_field_0']; ?></textarea>
     <?php
 }
 
 function sk_api_select_field_1_render(  ) {
     $options = get_option( 'sk_api_settings' );
     ?>
-    <input type='text' name='sk_api_settings[sk_api_text_field_1]' value='<?php echo $options['sk_api_text_field_1']; ?>'>
+    <input style="width:30vw;" type='text' name='sk_api_settings[sk_api_text_field_1]' value='<?php echo $options['sk_api_text_field_1']; ?>'>
 <?php
 }
 
