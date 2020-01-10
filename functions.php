@@ -302,6 +302,6 @@ add_action( 'admin_init', 'sk_settings_init' );
 
 function sk_add_admin_menu(  ) { 
 
-	add_options_page( 'settings', 'settings', 'manage_options', 'settings', 'sk_options_page' );
+	add_options_page( 'MicroCopy', 'MicroCopy', 'manage_options', 'MicroCopy', 'sk_options_page' );
 
 }
