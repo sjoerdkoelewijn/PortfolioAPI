@@ -340,6 +340,12 @@ function register_settings()
 	
 	register_setting(
 		"microcopy_options", 
+		"menutext", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
 		"heroheader", 
 		$args	
 	);
@@ -347,6 +353,24 @@ function register_settings()
 	register_setting(
 		"microcopy_options", 
 		"worktitle", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"worktitle", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"worksubtitle", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"worktext", 
 		$args	
 	);
 }
