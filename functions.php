@@ -295,93 +295,163 @@ add_action( 'init', 'custom_taxonomy_services', 0 );
 
 
 /*************************** Add admin option page **********************************/
-
-function display_micro_copy_headertext()
+// Add options page and menu item
+function add_theme_menu_item()
 {
-	$options = get_option( 'micro_copy' );
-    ?>
-    <textarea style="width:30vw;height:250px;" name='micro_copy[micro_copy_headertext]'><?php echo $options['micro_copy_headertext']; ?></textarea>
-    <?php
-}
-
-
-function register_settings() {
-
-
-    $args = array(
-        'type' => 'string',
-        'sanitize_callback' => NULL,
-        // 'sanitize_callback' => 'sanitize_text_field',
-        'default' => NULL,
-        'show_in_graphql' => true,
-    );
-
-    register_setting("microcopy", "micro_copy", $args);
-
-}
-
-function register_settings_groups() {
-
-    add_settings_section(
-		"index_microcopy_section", 
-		"Index Microcopy", 
-		null, 
-		"microcopy"
+    add_menu_page(
+		"Microcopy", // This is the menu title
+		"Microcopy", // Menu text
+		"manage_options", // Level of rights that user need to have to see this page.
+		"microcopy-page", // This is the slug
+		"microcopy_api_page", // Function called to add content to this page 
+		"dashicons-edit", // This is the menu icon
+		3
 	);
-
-    $args = array(
-        'type' => 'string',
-        'show_in_graphql' => true,
-    );
-
-
-    add_settings_field(
-		"micro_copy_headertext", 
-		"Index Hero Text", 
-		"display_micro_copy_headertext", 
-		"microcopy",
-		"index_microcopy_section"
-	);
-
-    $args = array(
-        'type' => 'string',
-        'sanitize_callback' => NULL,
-        // 'sanitize_callback' => 'sanitize_text_field',
-        'default' => NULL,
-        'show_in_graphql' => true,
-    );
-
-
-
 }
 
-
-
-function microcopy_api_page()
+// Add content to the options page
+function microcopy_api_page() 
 {
     ?>
 	    <div class="wrap">
-	    
-        <h1>Microcopy Overview</h1>
-
-	    <form method="post" action="options.php">
-	        
-            <?php
-	            settings_fields("microcopy");
-	            do_settings_sections("microcopy");      
-	            submit_button(); 
-	        ?>          
-	    </form>
+	        <h1>Microcopy Overview</h1>
+			<form method="post" action="options.php">
+				<?php
+					settings_fields("microcopy_options");
+					do_settings_sections("plugin");      
+					submit_button(); 
+				?> 
+	    	</form>
 		</div>
 	<?php
 }
 
+add_action("admin_menu", "add_theme_menu_item");
 
-function add_theme_menu_item()
+function register_settings() 
 {
-    add_menu_page("Microcopy", "Microcopy", "manage_options", "microcopy-page", "microcopy_api_page", "dashicons-edit", 3);
+    $args = array(
+        'type' => 'string',
+        'sanitize_callback' => NULL,
+        // 'sanitize_callback' => 'sanitize_text_field',
+        'default' => NULL,
+        'show_in_graphql' => true,
+    );
+	
+	register_setting(
+		"microcopy_options", 
+		"heroheader", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"worktitle", 
+		$args	
+	);
 }
 
-add_action("admin_menu", "add_theme_menu_item");
-add_action("init", "register_settings");
-add_action("admin_init", "register_settings_groups");
+function plugin_admin_init(){
+
+	add_settings_section('plugin_main', 'Main Settings', 'plugin_section_text', 'plugin');
+	
+	add_settings_field(
+		'mc_menu_text', 
+		'Menu Text', 
+		'McMenuText', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_hero_text', 
+		'Index Hero Text', 
+		'McHeroText', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_work_title', 
+		'Work Title', 
+		'McWorkTitle', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_work_sub_title', 
+		'Work Subtitle', 
+		'McWorkSubTitle', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_work_text', 
+		'Work Text', 
+		'McWorkText', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+
+	$args = array(
+        'type' => 'string',
+        'sanitize_callback' => NULL,
+        // 'sanitize_callback' => 'sanitize_text_field',
+        'default' => NULL,
+		'show_in_graphql' => true,
+		
+	);
+	
+}
+
+function plugin_section_text() {
+	echo '<p>This is an overview of all the microcopy used</p>';
+} 
+
+function McMenuText() {
+	?>
+   		<textarea id="mc_menu_text" style="width:30vw;height:250px;" type="text" name="menutext"><?php echo get_option('menutext'); ?></textarea>
+	<?php
+}
+
+function McHeroText() {
+	?>
+   		<textarea id="mc_hero_text" style="width:30vw;height:250px;" type="text" name="heroheader"><?php echo get_option('heroheader'); ?></textarea>
+	<?php
+}
+
+function McWorkTitle() {
+	?>
+		<input id="mc_work_title" class="regular-text" type="text" style="width:30vw;" name="worktitle" value="<?php echo get_option('worktitle'); ?>"/>
+	<?php
+}
+
+function McWorkSubTitle() {
+	?>
+		<input id="mc_work_sub_title" class="regular-text" type="text" style="width:30vw;" name="worksubtitle" value="<?php echo get_option('worksubtitle'); ?>"/>
+	<?php
+}
+
+function McworkText() {
+	?>
+   		<textarea id="mc_work_text" style="width:30vw;height:250px;" type="text" name="worktext"><?php echo get_option('worktext'); ?></textarea>
+	<?php
+}
+
+
+
+
+
+
+
+// add the admin settings and such
+add_action('admin_init', 'plugin_admin_init');
+add_action('init', 'register_settings');
