@@ -373,6 +373,66 @@ function register_settings()
 		"worktext", 
 		$args	
 	);
+
+	register_setting(
+		"microcopy_options", 
+		"servicetitle", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"servicesubtitle", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"servicetext", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"quoteone", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"quotetwo", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"quotesubtitle", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"ctagetintouch", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"ctaletstalk", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"ctaseecase", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"footertext", 
+		$args	
+	);
 }
 
 function plugin_admin_init(){
@@ -424,6 +484,95 @@ function plugin_admin_init(){
 		$args
 	);
 
+	add_settings_field(
+		'mc_service_title', 
+		'Service Title', 
+		'McServiceTitle', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_service_sub_title', 
+		'Service Subtitle', 
+		'McServiceSubTitle', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_service_text', 
+		'Service Text', 
+		'McServiceText', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_quote_one', 
+		'First Quote', 
+		'McQuoteOne', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_quote_two', 
+		'Second Quote', 
+		'McQuoteTwo', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_quote_subtitle', 
+		'Quote Subtitle', 
+		'McQuoteSubtitle', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_cta_getintouch', 
+		'Get in touch CTA', 
+		'McCTAgetintouch', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_cta_letstalk', 
+		'Lets Talk CTA', 
+		'McCTAletstalk', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_cta_seecase', 
+		'See Case CTA', 
+		'McCTAseecase', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_footer_text', 
+		'Footer Text', 
+		'McFooterText', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
 
 	$args = array(
         'type' => 'string',
@@ -464,9 +613,70 @@ function McWorkSubTitle() {
 	<?php
 }
 
-function McworkText() {
+function McWorkText() {
 	?>
    		<textarea id="mc_work_text" style="width:30vw;height:250px;" type="text" name="worktext"><?php echo get_option('worktext'); ?></textarea>
+	<?php
+}
+
+function McServiceTitle() {
+	?>
+		<input id="mc_service_title" class="regular-text" type="text" style="width:30vw;" name="servicetitle" value="<?php echo get_option('servicetitle'); ?>"/>
+	<?php
+}
+
+function McServiceSubTitle() {
+	?>
+		<input id="mc_service_sub_title" class="regular-text" type="text" style="width:30vw;" name="servicesubtitle" value="<?php echo get_option('servicesubtitle'); ?>"/>
+	<?php
+}
+
+function McServiceText() {
+	?>
+   		<textarea id="mc_service_text" style="width:30vw;height:250px;" type="text" name="servicetext"><?php echo get_option('servicetext'); ?></textarea>
+	<?php
+}
+
+function McQuoteOne() {
+	?>
+		<input id="mc_quote_one" class="regular-text" type="text" style="width:30vw;" name="quoteone" value="<?php echo get_option('quoteone'); ?>"/>
+	<?php
+}
+
+
+function McQuoteTwo() {
+	?>
+		<input id="mc_quote_two" class="regular-text" type="text" style="width:30vw;" name="quotetwo" value="<?php echo get_option('quotetwo'); ?>"/>
+	<?php
+}
+
+function McQuoteSubtitle() {
+	?>
+		<input id="mc_quote_subtitle" class="regular-text" type="text" style="width:30vw;" name="quotesubtitle" value="<?php echo get_option('quotesubtitle'); ?>"/>
+	<?php
+}
+
+function McCTAgetintouch() {
+	?>
+		<input id="mc_cta_getintouch" class="regular-text" type="text" style="width:30vw;" name="ctagetintouch" value="<?php echo get_option('ctagetintouch'); ?>"/>
+	<?php
+}
+
+function McCTAletstalk() {
+	?>
+		<input id="mc_cta_letstalk" class="regular-text" type="text" style="width:30vw;" name="ctaletstalk" value="<?php echo get_option('ctaletstalk'); ?>"/>
+	<?php
+}
+
+function McCTAseecase() {
+	?>
+		<input id="mc_cta_seecase" class="regular-text" type="text" style="width:30vw;" name="ctaseecase" value="<?php echo get_option('ctaseecase'); ?>"/>
+	<?php
+}
+
+function McFooterText() {
+	?>
+   		<textarea id="mc_footer_text" style="width:30vw;height:250px;" type="text" name="footertext"><?php echo get_option('footertext'); ?></textarea>
 	<?php
 }
 
