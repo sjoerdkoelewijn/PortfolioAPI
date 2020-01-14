@@ -591,13 +591,13 @@ function plugin_section_text() {
 
 function McMenuText() {
 	?>
-   		<textarea id="mc_menu_text" style="width:30vw;height:250px;" type="text" name="menutext"><?php echo get_option('menutext'); ?></textarea>
+   		<textarea id="mc_menu_text" style="width:30vw;height:200px;" type="text" name="menutext"><?php echo get_option('menutext'); ?></textarea>
 	<?php
 }
 
 function McHeroText() {
 	?>
-   		<textarea id="mc_hero_text" style="width:30vw;height:250px;" type="text" name="heroheader"><?php echo get_option('heroheader'); ?></textarea>
+   		<textarea id="mc_hero_text" style="width:30vw;height:200px;" type="text" name="heroheader"><?php echo get_option('heroheader'); ?></textarea>
 	<?php
 }
 
@@ -615,7 +615,7 @@ function McWorkSubTitle() {
 
 function McWorkText() {
 	?>
-   		<textarea id="mc_work_text" style="width:30vw;height:250px;" type="text" name="worktext"><?php echo get_option('worktext'); ?></textarea>
+   		<textarea id="mc_work_text" style="width:30vw;height:200px;" type="text" name="worktext"><?php echo get_option('worktext'); ?></textarea>
 	<?php
 }
 
@@ -633,7 +633,7 @@ function McServiceSubTitle() {
 
 function McServiceText() {
 	?>
-   		<textarea id="mc_service_text" style="width:30vw;height:250px;" type="text" name="servicetext"><?php echo get_option('servicetext'); ?></textarea>
+   		<textarea id="mc_service_text" style="width:30vw;height:200px;" type="text" name="servicetext"><?php echo get_option('servicetext'); ?></textarea>
 	<?php
 }
 
