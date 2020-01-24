@@ -346,7 +346,19 @@ function register_settings()
 
 	register_setting(
 		"microcopy_options", 
+		"herotitle", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
 		"heroheader", 
+		$args	
+	);
+
+	register_setting(
+		"microcopy_options", 
+		"herocta", 
 		$args	
 	);
 
@@ -449,9 +461,27 @@ function plugin_admin_init(){
 	);
 
 	add_settings_field(
+		'mc_hero_title', 
+		'Index Hero Title', 
+		'McHeroTitle', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
 		'mc_hero_text', 
 		'Index Hero Text', 
 		'McHeroText', 
+		'plugin', 
+		'plugin_main', 
+		$args
+	);
+
+	add_settings_field(
+		'mc_hero_cta', 
+		'Index Hero CTA', 
+		'McHeroCTA', 
 		'plugin', 
 		'plugin_main', 
 		$args
@@ -595,9 +625,21 @@ function McMenuText() {
 	<?php
 }
 
+function McHeroTitle() {
+	?>
+		<input id="mc_hero_title" class="regular-text" type="text" style="width:30vw;" name="herotitle" value="<?php echo get_option('herotitle'); ?>"/>
+	<?php
+}
+
 function McHeroText() {
 	?>
    		<textarea id="mc_hero_text" style="width:30vw;height:200px;" type="text" name="heroheader"><?php echo get_option('heroheader'); ?></textarea>
+	<?php
+}
+
+function McHeroCTA() {
+	?>
+		<input id="mc_hero_cta" class="regular-text" type="text" style="width:30vw;" name="herocta" value="<?php echo get_option('herocta'); ?>"/>
 	<?php
 }
 
